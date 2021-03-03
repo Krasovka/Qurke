@@ -1,25 +1,21 @@
+/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Panel, PanelHeader, PanelHeaderBack, PanelHeaderButton, platform, IOS, Cell, List, FormLayout, Button, Div, Input, FormLayoutGroup } from '@vkontakte/vkui';
+import { Panel, PanelHeader, HeaderButton, platform, IOS, FormLayout, Button, Div, Input, FormLayoutGroup } from '@vkontakte/vkui';
 import './Persik.css';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
-import Icon24BrowserForward from '@vkontakte/icons/dist/24/browser_forward';
-import Icon24Home from '@vkontakte/icons/dist/24/home';
-import Icon24LogoTwitter from '@vkontakte/icons/dist/24/logo_twitter';
-import Icon24Coins from '@vkontakte/icons/dist/24/coins';
-import Icon24Favorite from '@vkontakte/icons/dist/24/favorite';
 
 const osname = platform();
 
-const ChangeNickname = ({ go, props, onBackClick, handleNickChange, handleNickSubmit, userAcc }) => (
+const ChangeNickname = ({ go, handleNickChange, handleNickSubmit, userAcc }) => (
     <Panel id="changeNickname">
-		<PanelHeader
-			left={<PanelHeaderBack  onClick={props.go} data-to="home">
-				{osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
-			</PanelHeaderBack >}
-		>
-			Никнейм		
+        <PanelHeader
+            left={<HeaderButton onClick={go} data-to="home">
+                {osname === IOS ? <Icon28ChevronBack /> : <Icon24Back />}
+            </HeaderButton>}
+        >
+            Смена ника
 		</PanelHeader>
         <FormLayout>
             <FormLayoutGroup top="Новый ник">

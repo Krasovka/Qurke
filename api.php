@@ -10,6 +10,9 @@ define("DB_HOST", "sql11.freesqldatabase.com"); //Сервер базы данн
 define("DB_USERNAME", "sql11396427"); //Пользователь базы данных
 define("DB_PASSWORD", "TCBYpI8fFS"); //Пароль от пользователя базы данных
 define("DB_NAME", "sql11396427"); //Имя базы данных
+define("APP_SECRET", "Sj1trCQfc4lr4KXz0Vo5"); //Защищенный ключ приложения
+define("SERVICE_KEY", "02e785af02e785af02e785af7202912705002e702e785af62dde43bc49d917b17d8e026");
+define("ENDPOINT", "https://api.vk.com/method/");
 
 
 
@@ -95,48 +98,9 @@ $houses = [
     ]
 ];
 
-$ferm = [
-    1 => [
-        'name' => 'АSIС Minеr',
-        'price' => 25000,
-        'min' => 1,
-        'max' => 10
-    ],
-    2 => [
-        'name' => 'DRАGОNMINT T1',
-        'price' => 50000,
-        'min' => 1,
-        'max' => 20
-    ],
-    3 => [
-        'name' => 'FM2018-BT400',
-        'price' => 165000,
-        'min' => 1,
-        'max' => 30
-    ],
-    4 => [
-        'name' => 'Gеnеsis Mining',
-        'price' => 245000,
-        'min' => 1,
-        'max' => 40
-    ],
-    5 => [
-        'name' => 'GigаWаtt',
-        'price' => 555000,
-        'min' => 1,
-        'max' => 50
-    ],
-    6 => [
-        'name' => 'Космическое агенство',
-        'price' => 785000,
-        'min' => 10,
-        'max' => 60
-    ]
-];
 function getUser($user, $arr = null) {
     global $pets, $houses;
     $user['pet_name'] = isset($pets[$user['pet']]['name']) ? $pets[$user['pet']]['name'] : null; 
-    $user['ferm_name'] = isset($ferms[$user['ferm']]['name']) ? $pets[$user['ferm']]['name'] : null; 
     $user['house_name'] = isset($houses[$user['house']]['name']) ? $houses[$user['house']]['name'] : null; 
     if(isset($arr)) {
         $user['status'] = $arr['status'];
@@ -145,8 +109,38 @@ function getUser($user, $arr = null) {
     return $user;
 }
 
+function api($method, $params) {
+    $params['access_token'] = SERVICE_KEY;
+    $url = ENDPOINT . "{$method}?" . http_build_query($params);
+
+    return json_decode(file_get_contents($url), true);
+}
+
+$url = $_SERVER['HTTP_REFERER'];
+$client_secret = APP_SECRET;
+parse_str(parse_url($url, PHP_URL_QUERY), $query);
+
+$query_params = []; 
+parse_str(parse_url($url, PHP_URL_QUERY), $query_params); // Получаем query-параметры из URL 
+
+$sign_params = []; 
+foreach ($query_params as $name => $value) { 
+    if (strpos($name, 'vk_') !== 0) { // Получаем только vk параметры из query 
+      continue; 
+    } 
+
+$sign_params[$name] = $value; 
+} 
+
+ksort($sign_params); // Сортируем массив по ключам 
+$sign_params_query = http_build_query($sign_params); // Формируем строку вида "param_name1=value&param_name2=value" 
+$sign = rtrim(strtr(base64_encode(hash_hmac('sha256', $sign_params_query, $client_secret, true)), '+/', '-_'), '='); // Получаем хеш-код от строки, используя защищеный ключ приложения. Генерация на основе метода HMAC. 
+
+$status = $sign === $query_params['sign']; // Сравниваем полученную подпись со значением параметра 'sign' 
+if($status === false) die("No hacker");
 
 $data = $_POST;
+$data['user_vk'] = $query['vk_user_id'];
 $method = $_POST['method'];
 
 switch($method) {
@@ -155,18 +149,24 @@ switch($method) {
             $data['user_vk']
         ]);
         if($user==null) {
+            $params = [
+                'user_id'       => $data['user_vk'],
+                'fields'        => 'photo_200_orig',
+                'v'             => '5.95'
+            ];
+
+            $response = api('users.get', $params)['response'][0];
+
             $user = R::dispense('users');
-            $user->user_vk_id = $data['user_vk'];
-            $user->nickname   = $data['nickname'];
-            $user->first_name = $data['first_name'];
-            $user->last_name  = $data['last_name'];
-            $user->clicks     = $data['clicks'];
-            $user->reputation = $data['reputation'];
-            $user->priv       = $data['priv'];
-            $user->nick       = $data['nick'];
+            $user->user_vk_id = $response['id'];
+            $user->nickname   = "Player {$response['id']}";
+            $user->first_name = $response['first_name'];
+            $user->last_name  = $response['last_name'];
+            $user->clicks     = 0;
+            $user->reputation = 0;
+            $user->photo      = $response['photo_200_orig'];
             $user->pet        = 0;
-            $user->house        = 0;
-            $user->ferm        = 0;
+            $user->house      = 0;
             $user = R::load('users', R::store($user));
         }
         $array = getUser($user);
@@ -302,28 +302,6 @@ switch($method) {
 
         die(json_encode($array));
         break;
-        case 'user.buy.ferm':
-        $user = R::findOne('users', 'user_vk_id = ?', [
-            $data['user_vk']
-        ]);
-
-        if($user->house <= 0) {
-            if($user->clicks >= $houses[$data['ferm_id']]['price']) {
-                $user->house = $data['ferm_id'];
-                $user->clicks = $user->clicks - $houses[$data['ferm_id']]['price'];
-                $user = R::load('users', R::store($user));
-                $array = getUser($user, ['status' => 'success', 'msg' => "Вы успешно купили ферму {$ferms[$data['ferm_id']]['name']} за {$houses[$data['ferms_id']]['price']} коинов"]);
-            }
-            else {
-                $sum = $houses[$data['house_id']]['price'] - $user->clicks;
-                $array = getUser($user, ['status' => 'error', 'msg' => "Не удалось приобрести ферму, на вашем балансе не хватает {$sum} коинов"]);
-            }
-        } else {
-            $array = getUser($user, ['status' => 'error', 'msg' => "У вас уже есть ферма {$ferm[$user->ferm]['name']}"]);
-        }
-
-        die(json_encode($array));
-        break;
     case 'user.sell.house':
         $user = R::findOne('users', 'user_vk_id = ?', [
             $data['user_vk']
@@ -386,7 +364,7 @@ switch($method) {
                else  $user->aspeed = (float) $user->aspeed + (float) $upgrade->speed;
                 $user->clicks = (float) $user->clicks - (float) $upgrade->price;
                 $user = R::load('users', R::store($user));            
-                $price_new = round((float) $price + ((float) $price / 100) * 10, 3);    
+                $price_new = round((float) $price + ((float) $price / 100) * 40, 3);    
                 if($upgrade_history===null) {
                     $upgrade_history = R::dispense('history');
                     $upgrade_history->user_id = $user->id;
@@ -413,7 +391,12 @@ switch($method) {
             $data['user_vk']
         ]);
 
-        
+		if($data['count'] <= 0) {
+		$array = getUser($user, ['status' => 'error', 'msg' => "Сумма перевода должна быть положительной"]);
+		} else {
+        if($data['toid'] == $data['user_vk']) {
+		$array = getUser($user, ['status' => 'error', 'msg' => "Нельзя переводить самому себе"]);
+		} else {
         if(!$to) {
             $array = getUser($user, ['status' => 'error', 'msg' => "Такого пользователя нет в базе"]);
         } else {
@@ -716,19 +699,42 @@ switch($method) {
             } else {
                 $array = getUser($user, ['status' => 'error', 'msg' => "На вашем балансе недостаточно коинов"]);
             }
-        }
+          }
+        }    
+      } 
 
         $array = getUser($user);
         die(json_encode($array));
         break;
         case 'get.users.top.clicks':
-        $usersC = R::findAll('users', "ORDER BY `clicks` DESC");
-        $us = [];
+        $usersC = R::findAll('users', "ORDER BY `clicks` DESC LIMIT 100");
         $i = 0;
+        $us = [];
         foreach ($usersC as $key => $value) {
-            $us[$i] = $value;
+            if($i < 100) {
+                $us[$i] = $value;
+            }  
             $i++;
         }
+
+        // $result = array_filter($us, function($k) {
+        //     return (int) $k['user_vk_id'] === (int) $data['user_vk'];
+        // });
+        // var_dump($result);
+        // $key = (int) array_keys($result)[0];
+        // $my = [
+        //     'top_id' => $key,
+        //     'photo'  => $result[$key]['photo'],
+        //     'clicks' => $result[$key]['clicks'],
+        //     'user_vk_id' => $result[$key]['user_vk_id'],
+        //     'first_name' => $result[$key]['first_name'],
+        //     'last_name' => $result[$key]['last_name']
+        // ];
+
+        // die(json_encode([
+        //     'top' => $us,
+        //     'my'  => $my
+        // ]));
         die(json_encode($us));
         break;
     case 'get.users.top.reputation':
@@ -745,6 +751,7 @@ switch($method) {
         $user = R::findOne('users', 'user_vk_id = ?', [
             $data['user_vk']
         ]);
+        if(!isset($user)) return;
         $upgrades = R::findAll('upgrades', "type = 0 ORDER BY `id` ASC");
         $usu = [];
         $i = 0;
@@ -765,6 +772,7 @@ switch($method) {
         $user = R::findOne('users', 'user_vk_id = ?', [
             $data['user_vk']
         ]);
+        if(!isset($user)) return;
         $upgrades = R::findAll('upgrades', "type = 1 ORDER BY `id` ASC");
         $usu = [];
         foreach ($upgrades as $key => $value) {
@@ -785,8 +793,11 @@ switch($method) {
             $data['user_vk']
         ]);
 
+        if(!isset($user)) return;
+
         $user->clicks = (float) $user->clicks + (float) $user->aspeed; 
         $user = R::load('users', R::store($user));
+
         $array = getUser($user);
         die(json_encode($array));
         break;

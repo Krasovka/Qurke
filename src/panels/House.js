@@ -1,20 +1,20 @@
+/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Panel, PanelHeaderBack, Button,PanelHeader, PanelHeaderButton, platform, IOS, Group, Cell, List, FormStatus, Div} from '@vkontakte/vkui';
+import { Panel, PanelHeader, HeaderButton, Button, platform, IOS, Group, Cell, List, FormStatus, Div} from '@vkontakte/vkui';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
-import Icon24BrowserForward from '@vkontakte/icons/dist/24/browser_forward';
 
 const osname = platform();
 
 const House = props => (
 	<Panel id={props.id}>
-        <PanelHeader
-            left={<PanelHeaderBack onClick={props.go} data-to="home">
-                {osname === IOS ? <Icon28ChevronBack /> : <Icon24Back />}
-            </PanelHeaderBack >}
-        >
-            Дома
+		<PanelHeader
+			left={<HeaderButton onClick={props.go} data-to="persik">
+				{osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
+			</HeaderButton>}
+		>
+			Дома		
 		</PanelHeader>
 		<Div>
 		<FormStatus title="Обратите внимание" state="error">
@@ -23,7 +23,7 @@ const House = props => (
 		</Div>
         <Group title="Покупка дома">
             <List>
-				<Cell description="25.000 коинов" asideContent={<Button onClick={() => props.buy(1)}>Купить</Button>} >Старый домик в лесу</Cell>
+                <Cell description="25.000 коинов" asideContent={<Button onClick={() => props.buy(1)}>Купить</Button>} >Старый домик в лесу</Cell>
                 <Cell description="50.000 коинов" asideContent={<Button onClick={() => props.buy(2)}>Купить</Button>} >Домик возле поселения</Cell>
                 <Cell description="165.000 коинов" asideContent={<Button onClick={() => props.buy(3)}>Купить</Button>} >Большой дом возле реки</Cell>
                 <Cell description="245.000 коинов" asideContent={<Button onClick={() => props.buy(4)}>Купить</Button>} >Дом в городе</Cell>

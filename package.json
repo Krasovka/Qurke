@@ -1,6 +1,6 @@
 {
-  "name": "LionCoin",
-  "version": "2.0.0",
+  "name": "vklife",
+  "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "homepage": ".",
@@ -19,10 +19,9 @@
     "react-scripts": "^2.1.5"
   },
   "dependencies": {
-    "@vkontakte/icons": "^1.23.0",
-    "@vkontakte/vk-bridge": "^2.2.2",
-    "@vkontakte/vkui": "^3.10.0",
-    "@vkontakte/vkui-connect": "^1.5.4",
+    "@vkontakte/icons": "^1.4.3",
+    "@vkontakte/vkui": "^2.21.3",
+    "@vkontakte/vkui-connect": "^1.1.3",
     "axios": "^0.18.0",
     "babel-eslint": "^9.0.0",
     "core-js": "^2.6.5",
