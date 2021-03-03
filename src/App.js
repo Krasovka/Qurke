@@ -1,9 +1,7 @@
-/* eslint-disable */
 import React from 'react';
 import connect from '@vkontakte/vkui-connect';
-import { View, Alert} from '@vkontakte/vkui';
+import { View, Alert, Spinner, setActivePanel } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
-
 import Home from './panels/Home';
 import Persik from './panels/Persik';
 import House from './panels/House';
@@ -24,8 +22,8 @@ import Upgrade from './panels/Upgrade';
 class App extends React.Component {
 	constructor(props) {
 		super(props);
-
 		this.state = {
+			isBtnActive: false,
 			activePanel: 'home',
             fetchedUser: null,
             userAcc: null,
@@ -132,7 +130,6 @@ class App extends React.Component {
         this.getUpgradesTwo = this.getUpgradesTwo.bind(this);
         this.autoMine = this.autoMine.bind(this);
     }
-    
 
     openDefault(title, msg, actions) {
         this.setState({
@@ -167,31 +164,24 @@ class App extends React.Component {
 
   					break;
 				default:
-					console.log(e.detail.type);
+				
 			}
 		});
 		connect.send('VKWebAppGetUserInfo', {});
         setInterval(() => {
             this.autoMine();
-            console.log(1);
-        }, 1000)
-	}
-
-	go = (e) => {
-		this.setState({ activePanel: e.currentTarget.dataset.to })
-        if(e.currentTarget.dataset.to === "top") {
             this.getUsersTopClicks();
             this.getUsersTopReputation();
-        }
+        }, 1000)
 	}
-
+	
     createUser = (data) => {
         fetch("/api.php", {
             method: 'post',
             headers: {
                 "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
             },
-            body: `method=user.create`
+            body: `method=user.create&user_vk=${data.id}&nickname=Игрок ${data.id}&first_name=${data.first_name}&last_name=${data.last_name}&clicks=0&reputation=0`
         })
             .then((response) => response.json())
             .then((response) => {
@@ -263,7 +253,6 @@ class App extends React.Component {
                 //console.log(this.state.userAcc)
             })
             .catch((error) => {
-                console.log(error)
             })
     }
 
@@ -277,7 +266,6 @@ class App extends React.Component {
         })
             .then((response) => response.json())
             .then((response) => {
-                console.log('user', response)
                 this.setState({ userAcc: response })
                 this.setState({ clicks: response.clicks, reputation: response.reputation, speed: response.speed, aspeed: response.aspeed })
                 this.setState({ history: response.history })
@@ -373,7 +361,6 @@ class App extends React.Component {
                             style: "destructive"
                         })
                         break;
-                    default: break;
                 }
                 this.setState({ userAcc: response })
                 this.setState({ clicks: response.clicks, reputation: response.reputation, speed: response.speed, aspeed: response.aspeed })
@@ -470,7 +457,6 @@ class App extends React.Component {
                             style: "destructive"
                         })
                         break;
-                    default: break;
                 }
                 this.setState({ userAcc: response })
                 this.setState({ clicks: response.clicks, reputation: response.reputation, speed: response.speed, aspeed: response.aspeed })
@@ -505,7 +491,6 @@ class App extends React.Component {
                             style: "destructive"
                         })
                         break;
-                    default: break;
                 }
                 this.setState({ userAcc: response })
                 this.setState({ clicks: response.clicks, reputation: response.reputation, speed: response.speed, aspeed: response.aspeed })
@@ -588,11 +573,8 @@ class App extends React.Component {
             .then((response) => response.json())
             .then((response) => {
                 this.setState({ usersTopClicks: response })
-                console.log('clicks', response)
             })
-            .catch((error) => {
-                console.error(error)
-            })
+            .catch((error) => {            })
     }
 
     getUsersTopReputation = () => {
@@ -606,10 +588,8 @@ class App extends React.Component {
             .then((response) => response.json())
             .then((response) => {
                 this.setState({ usersTopReputation: response });
-                console.log('reputation', response)
             })
             .catch((error) => {
-                console.error(error)
             })
     }
 
@@ -621,7 +601,7 @@ class App extends React.Component {
 
     handleReputationSubmit(event) {
         if (this.state.clicks < 50000) {
-            this.openDefault("Ошибка!!", "Недостаточно денег для покупки рейтинга. Курс: 1 rate = 50000 coins", {
+            this.openDefault("Ошибка!!", "Недостаточно денег для покупки рейтинга. К = 50000 coins", {
                 title: 'ОК',
                 autoclose: true,
                 style: "destructive"
@@ -634,7 +614,6 @@ class App extends React.Component {
     }
 
     handleNickChange(event) {
-        console.log(event.target)
         this.setState({ nick: event.target.value})
     }
 
@@ -651,7 +630,6 @@ class App extends React.Component {
     }
 
     handleTransferChange(event) {
-        console.log(event.target)
         const target = event.target;
         const name = target.name;
         const value = target.value;
@@ -689,7 +667,6 @@ class App extends React.Component {
                             style: "destructive"
                         })
                         break;
-                    default: break;
                 }
                 this.setState({ userAcc: response })
                 this.setState({ clicks: response.clicks, reputation: response.reputation, speed: response.speed, aspeed: response.aspeed })
@@ -724,7 +701,6 @@ class App extends React.Component {
                             style: "destructive"
                         })
                         break;
-                    default: break;
                 }
                 this.setState({ userAcc: response })
                 this.setState({ clicks: response.clicks, reputation: response.reputation, speed: response.speed, aspeed: response.aspeed })
@@ -760,7 +736,6 @@ class App extends React.Component {
                             style: "destructive"
                         })
                         break;
-                    default: break;
                 }
                 this.setState({ userAcc: response })
                 this.setState({ clicks: response.clicks, reputation: response.reputation, speed: response.speed, aspeed: response.aspeed })
@@ -796,7 +771,6 @@ class App extends React.Component {
                             style: "destructive"
                         })
                         break;
-                    default: break;
                 }
                 this.setState({ userAcc: response })
                 this.setState({ clicks: response.clicks, reputation: response.reputation, speed: response.speed, aspeed: response.aspeed })
@@ -831,7 +805,6 @@ class App extends React.Component {
                             style: "destructive"
                         })
                         break;
-                    default: break;
                 }
                 this.setState({ userAcc: response })
                 this.setState({ clicks: response.clicks, reputation: response.reputation, speed: response.speed, aspeed: response.aspeed })
@@ -867,7 +840,6 @@ class App extends React.Component {
                             style: "destructive"
                         })
                         break;
-                    default: break;
                 }
                 this.setState({ userAcc: response })
                 this.setState({ clicks: response.clicks, reputation: response.reputation, speed: response.speed, aspeed: response.aspeed })
@@ -896,7 +868,6 @@ class App extends React.Component {
                             style: "destructive"
                         })
                         break;
-                    default: break;
                 }
                 this.setState({ userAcc: response })
                 this.setState({ clicks: response.clicks, reputation: response.reputation, speed: response.speed, aspeed: response.aspeed })
@@ -917,8 +888,7 @@ class App extends React.Component {
             body: `method=get.upgrades.one&user_vk=${this.state.fetchedUser.id}`
         })
             .then((response) => response.json())
-            .then((response) => {
-                console.log(response)                
+            .then((response) => {             
                 this.setState({ upgradesOne: response });
             })
             .catch((error) => {
@@ -935,8 +905,7 @@ class App extends React.Component {
             body: `method=get.upgrades.two&user_vk=${this.state.fetchedUser.id}`
         })
             .then((response) => response.json())
-            .then((response) => {
-                console.log(response)                
+            .then((response) => {              
                 this.setState({ upgradesTwo: response });
             })
             .catch((error) => {
@@ -953,8 +922,7 @@ class App extends React.Component {
             body: `method=user.auto.mine&user_vk=${this.state.fetchedUser.id}`
         })
             .then((response) => response.json())
-            .then((response) => {
-                console.log(response)                
+            .then((response) => {         
                 this.setState({ userAcc: response })
                 this.setState({ clicks: response.clicks, reputation: response.reputation, speed: response.speed, aspeed: response.aspeed })
             })
@@ -973,9 +941,16 @@ class App extends React.Component {
 
 
 	add1 = () => {
-        this.updateUserClicks(this.state.fetchedUser.id)
-	}
-
+       this.setState({ isBtnActive: true });
+       setTimeout(()=>{
+       this.setState({ isBtnActive: false });
+       }, 100)
+       this.updateUserClicks(this.state.fetchedUser.id)
+       }
+	
+    onBlur1 = () => {
+    	 this.setState({ isBtnActive: false });
+    }
 
     dark = () => { 
         document.body.setAttribute( 'scheme','client_dark' ); 
@@ -985,11 +960,14 @@ class App extends React.Component {
         document.body.setAttribute( 'scheme','client_light' ); 
     }
 
-
+    go = (e) => {
+        this.setState({ activePanel: e.currentTarget.dataset.to })
+    }
+    
 	render() {
 		return (
 			<View popout={this.state.popout} activePanel={this.state.activePanel}>
-                <Home id="home" add1={this.add1} userAcc={this.state.userAcc} dark={this.dark} light={this.light} clicks={this.state.clicks} speed={this.state.speed} aspeed={this.state.aspeed} reputation={this.state.reputation} name={this.name} fetchedUser={this.state.fetchedUser} go={this.go} />
+                <Home id="home" add1={this.add1} isBtnActive={this.state.isBtnActive} onBlur1={this.onBlur1} userAcc={this.state.userAcc} dark={this.dark} light={this.light} clicks={this.state.clicks} speed={this.state.speed} aspeed={this.state.aspeed} reputation={this.state.reputation} name={this.name} fetchedUser={this.state.fetchedUser} go={this.go} />
                 <Persik id="persik" go={this.go} name={this.name} fetchedUser={this.state.fetchedUser} userAcc={this.state.userAcc} />
                 <House id="house" go={this.go} buy={this.buyHouse} />
                 <Imus id="imus" go={this.go} />

@@ -1,21 +1,21 @@
-/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Panel, PanelHeader, HeaderButton, Button, platform, IOS, Group, Cell, List } from '@vkontakte/vkui';
+import { Panel, PanelHeaderBack, PanelHeaderButton, PanelHeader, Button, platform, IOS, Group, Cell, List } from '@vkontakte/vkui';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
+import Icon24BrowserForward from '@vkontakte/icons/dist/24/browser_forward';
 
 const osname = platform();
 
 const MyHouse = props => (
     <Panel id={props.id}>
-        <PanelHeader
-            left={<HeaderButton onClick={props.go} data-to="home">
-                {osname === IOS ? <Icon28ChevronBack /> : <Icon24Back />}
-            </HeaderButton>}
-        >
-            Дома
-		</PanelHeader>
+		<PanelHeader
+			left={<PanelHeaderButton onClick={props.go} data-to="home">
+				{osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
+			</PanelHeaderButton>}
+		>
+   Дома
+    </PanelHeader>  
         <Group title="Дом">
             <List>
                 <Cell

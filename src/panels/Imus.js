@@ -1,9 +1,12 @@
-/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Panel, PanelHeader, HeaderButton, platform, IOS, Cell, List} from '@vkontakte/vkui';
+import {Panel, PanelHeaderBack, PanelHeader, PanelHeaderButton, platform, IOS, Cell, List, Group, Div, Button} from '@vkontakte/vkui';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
+import Icon24Mention from '@vkontakte/icons/dist/24/mention';
+import Icon24User from '@vkontakte/icons/dist/24/user';
+import Icon24Settings from '@vkontakte/icons/dist/24/settings';
+import Icon24BrowserForward from '@vkontakte/icons/dist/24/settings';
 import Icon24Home from '@vkontakte/icons/dist/24/home';
 import Icon24Bug from '@vkontakte/icons/dist/24/bug';
 
@@ -29,14 +32,14 @@ function MyHouseIs(props) {
     }  
 }
 
-const Imus = ({ go, userAcc }) => (
+const Imus = ({ go, userAcc, props }) => (
 	<Panel id="imus">
-		<PanelHeader
-			left={<HeaderButton onClick={go} data-to="home">
-				{osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
-			</HeaderButton>}
-		>
-			Имущество		
+        <PanelHeader
+            left={<PanelHeaderBack onClick={props.go} data-to="home">
+                {osname === IOS ? <Icon28ChevronBack /> : <Icon24Back />}
+            </PanelHeaderBack >}
+        >
+            Имущество
 		</PanelHeader>
         <List>
         <MyPetIs pet={userAcc && userAcc.pet} user={userAcc && userAcc} go={go}/>

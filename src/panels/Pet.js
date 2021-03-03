@@ -1,20 +1,20 @@
-/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Panel, PanelHeader, HeaderButton, Button, platform, IOS, Group, Cell, List, FormStatus, Div} from '@vkontakte/vkui';
+import { Panel, PanelHeaderBack, Button, PanelHeader, platform, PanelHeaderButton, IOS, Group, Cell, List, FormStatus, Div} from '@vkontakte/vkui';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
+import Icon24BrowserForward from '@vkontakte/icons/dist/24/browser_forward';
 
 const osname = platform();
 
 const Pet = props => (
 	<Panel id={props.id}>
-		<PanelHeader
-			left={<HeaderButton onClick={props.go} data-to="persik">
-				{osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
-			</HeaderButton>}
-		>
-			Питомцы		
+        <PanelHeader
+            left={<PanelHeaderBack onClick={props.go} data-to="home">
+                {osname === IOS ? <Icon28ChevronBack /> : <Icon24Back />}
+            </PanelHeaderBack >}
+        >
+            Питомцы
 		</PanelHeader>
 		<Div>
 		<FormStatus title="Обратите внимание" state="error">

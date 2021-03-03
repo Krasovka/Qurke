@@ -1,22 +1,24 @@
-/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
 import connect from '@vkontakte/vkui-connect';
-import Icon24Gift from '@vkontakte/icons/dist/24/gift';
+import Icon24Flash from '@vkontakte/icons/dist/24/flash';
 import Icon24Mention from '@vkontakte/icons/dist/24/mention';
 import Icon24User from '@vkontakte/icons/dist/24/user';
 import Icon24Coins from '@vkontakte/icons/dist/24/coins';
 import Icon24Favorite from '@vkontakte/icons/dist/24/favorite';
 import Icon24Bug from '@vkontakte/icons/dist/24/bug';
-import Icon24Send from '@vkontakte/icons/dist/24/send';
+import Icon24Filter from '@vkontakte/icons/dist/24/filter';
+import Icon24Note from '@vkontakte/icons/dist/24/note';
+import Icon24Poll from '@vkontakte/icons/dist/24/poll';
 import Icon24Game from '@vkontakte/icons/dist/24/game';
 import Icon24Home from '@vkontakte/icons/dist/24/home';
+import Icon24Market from '@vkontakte/icons/dist/24/market';
 import Icon24Services from '@vkontakte/icons/dist/24/services';
 import Icon24BrowserForward from '@vkontakte/icons/dist/24/settings';
 import './assets/css/bootstrap.css';
 import './assets/css/style.css';
 import '@vkontakte/vkui/dist/vkui.css';
-import { Panel, ListItem, Button, Group, Div, Avatar, Cell, List , Alert} from '@vkontakte/vkui';
+import { Panel, List, Button, Group, Div, Avatar, Gallery, Cell, Alert } from '@vkontakte/vkui';
 
 function MyPetIs(props) {
     const isPetIn = props.pet;
@@ -38,63 +40,76 @@ function MyHouseIs(props) {
     }  
 }
 
-const Home = ({ id, add1, userAcc, clicks, reputation, speed, aspeed, fetchedUser, go, priv, name, dark, light }) => (
-	<Panel id="home">
-		<Div>
-			<div className="row">
-				<div className="col-md-12">
-					<div className="text-center text-muted">
-						<center><small>ВАШ СЧЕТ</small></center>
-						<center><h1>{parseFloat(clicks).toFixed(3)} PC</h1></center>
-						<center><p>Авто-майнинг: + {parseFloat(aspeed).toFixed(3)}</p></center>
-					</div>
-                <div className="container">
+const Home = ({ id, add1, isBtnActive, onBlur1, userAcc, clicks, reputation, speed, aspeed, fetchedUser, go, priv, name, dark, light }) => (
+    <Panel id="home">
+        <Div>
 
-                    <Div align="center">
-                        <img src={require('../img/click.png')} onClick={add1} width={250} height={250} />
+            <div className="row">
+                <div className="col-md-12">
+                    <div className="text-center text-muted">
+                        <div class="BalanceBox">
+                        <center><small>БАЛАНС</small></center>
+                        <div className="balanceBox">
+                                <center><h1>{parseFloat(clicks).toFixed(3)} <img src={require('../img/coin.png')} width={40} height={40} /></h1></center>
+                            </div>
+                    <div className="kek"/>
+                        <div className="balam">
+                        <div className="balanceAmount">
+                                <center>+ {parseFloat(speed).toFixed(3)}/клик</center>
+                        </div>
+                        <div className="balanceAmount">
+                            <center>+ {parseFloat(aspeed).toFixed(3)}/сек</center>
+                        </div>
+                            </div>
+                            </div>
+                <div class="MenuButtons">
+                                <div class="MenuButtons__button" onClick={go} data-to="top">
+                                    <h4> </h4>
+                                    <div className='MenuButtons__icon'>
+                                        <Icon24Poll />
+                                    </div>
+                                    <p>Рейтинг</p>
+                                    </div>
+                                    <div class="MenuButtons__button" onClick={go} data-to="dop">
+                                    <h4> </h4>
+                                    <div className='MenuButtons__icon'>
+                                        <Icon24Poll />
+                                    </div>
+                                    <p>Дополнительно</p>
+                                    </div>
+                                    <div class="MenuButtons__button" onClick={go} data-to="persik">
+                                    <h4> </h4>
+                                    <div className='MenuButtons__icon'>
+                                        <Icon24Poll />
+                                    </div>
+                                    <p>Магазин</p>
+                                </div>
+                </div>
+
+                <div className="container">
+                    <Div >
+                        <img onClick={add1} src={require('../img/click.png')} width={250} height={250} />
                     </Div>
-                    
-				</div>
-                <div className="text-center buttons">
-						<div className="d-flex justify-content-around">
-							<div className="justify-content-around">
-								<button className="btn btn-rating">
-									<Icon24Game className="buttons_custom" onClick={go} data-to="top" />
-								</button>
-								<p className="text-buttons text-muted text-monospace">Топ</p>
-							</div>
-							<div className="justify-content-around">
-								<button className="btn btn-exchange">
-									<Icon24Send className="buttons_custom" onClick={go} data-to="dop" />
-								</button>
-								<p className="text-buttons text-muted text-monospace">Перевод</p>
-							</div>
-							<div className="justify-content-around">
-								<button className="btn btn-shop" onClick={go} data-to="persik">
-									<Icon24Gift className="buttons_custom" />
-								</button>
-								<p className="text-buttons text-muted text-monospace">Магазин</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</Div>
-	</Panel>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Div>
+    </Panel>
 );
 
 
 
 Home.propTypes = {
-	id: PropTypes.string.isRequired,
-	go: PropTypes.func.isRequired,
-	fetchedUser: PropTypes.shape({
-		photo_200: PropTypes.string,
-		first_name: PropTypes.string,
-		last_name: PropTypes.string,
-		city: PropTypes.shape({
-			title: PropTypes.string,
-		}),
+    id: PropTypes.string.isRequired,
+    go: PropTypes.func.isRequired,
+    fetchedUser: PropTypes.shape({
+        photo_200: PropTypes.string,
+        first_name: PropTypes.string,
+        last_name: PropTypes.string,
+        city: PropTypes.shape({
+            title: PropTypes.string,
+        }),
     }),
 };
 export default Home;

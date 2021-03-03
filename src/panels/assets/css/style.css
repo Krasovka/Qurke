@@ -1,5 +1,8 @@
 :root {
-    --background_page: #481677 !important;
+    --background_page: #f9f9f9 !important;
+}
+* {
+    font-family: 'TT Commons', sans-serif;
 }
 div.Icon--24 {
     text-align: center;
@@ -8,6 +11,175 @@ div.Icon--24 {
     align-content: center;
     justify-content: center;
 }
+
+.MenuButtons,
+.MenuButtons__button {
+    flex-grow: 1;
+    flex-direction: row;
+    color: #fff;
+    Align-items: center;
+    font-size: 4vw;
+}
+aside {
+    background: #f0f0f0;
+}
+
+
+.h1 {
+    font-family: 'TT Commons Thin';
+}
+
+@media screen and (max-width: 1280px) {
+    div.contentblock {
+        width: 1200px;
+    }
+}
+
+@media screen and (max-width: 1140px) {
+    div.contentblock {
+        width: 1024px;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    div. contentblock {
+        width: 970px;
+    }
+}
+
+.p {
+    text-align: center;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.kek.balanceAmount center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.balanceAmount {
+    font-family: "SF Pro Display";
+    font-size: 3.25vw;
+    padding: 1vw;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1.75vw;
+    margin-right: 20px;
+    position: relative;
+    color: #fff;
+    background-color: #f2994a;
+    margin: 0 2.5vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.kek {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.balam {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.MenuButtons {
+    font-family: "TTCommons";
+    background: linear-gradient(90deg,#f2994a,#f2c94c);
+    box-shadow: 0 0.5vw 6vw 0 rgba(0,0,0,.25), 0 0 0.5vw 0 rgba(0,0,0,.08);
+    height: 21.25vw;
+    display: flex;
+    display: inline-block;
+    margin: 0 auto;
+    justify-content: center;
+    margin: 7.5vw 4vw 10vw;
+    border-radius: 2.5vw;
+    display: flex;
+}
+
+.tokens {
+    display: flex;
+align-items: center;
+justify-content: center;
+}
+
+btn {
+-webkit-transform: scale(1);
+-ms-ransform: scale(1);
+transform: scale(1);
+transition: 2s;
+}
+ 
+btn_active {
+-webkit-transform: scale(2) !important;
+-ms-ransform: scale(2) !important;
+transform: scale(2) !important;
+}
+
+.body {
+  font-family: Museo;
+}
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.BalanceBox {
+    font-family: "TTCommons";
+    font-size: 4vw;
+    font-weight: 500;
+    color: .999;
+    margin-top: 5vw;
+    color: #777;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.asideContent {
+    background: #f0f0f0;
+}
+
+.textbutton {
+    min-width: 57px;
+    text-align: center;
+}
+
+.MenuButtons .MenuButtons__button {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: #fff;
+    font-size: 4vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hef {
+    position: relative;
+    top: 10px;
+}
+
+h3 {
+    text-align: center;
+    align-items: center;
+}
+.click {
+    border-radius: 50%;
+    width: 90.5vw;
+    height: 90.5vw;
+    transform: rotateX(0deg) rotateY(0deg) scale(1);
+    max-width: 362px;
+    max-height: 362px;
+}
 .buttons_custom.Icon--24 {
     width: 48px !important;
     height: 64px !important;
@@ -15,6 +187,13 @@ div.Icon--24 {
 .buttons_custom.Icon--24>svg {
     width: 42px !important;
     height: 44px !important;
+}
+.namepanel {
+    font-size: 26px;
+    font-weight: 600;
+    color: #00b77c;
+    text-align: center;
+    width: 100%;
 }
 div.Icon--32 {
     text-align: center;
@@ -46,61 +225,54 @@ div.Icon--32 {
     border: none;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
+    margin-right: 8px;
     border-radius: 10px;
     font-weight: bold;
     color: #E5FFFF;
 }
 .btn-rating {
     text-align: center;
-    background: #17a2b8;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to top, #f0bc5c, #f6ce85);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to top, #f0bc5c, #f6ce85); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    -webkit-box-shadow: 0px 0px 0px 0px #7b00f0;
-    -moz-box-shadow:    0px 0px 0px 0px #8300f8;
-    box-shadow:         0px 0px 0px 0px #8b00ff;
 }
 
 .btn-exchange {
     text-align: center;
-    background: #17a2b8;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to top, #8b00ff, #9048d4);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to top, #8b00ff, #9048d4); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    -webkit-box-shadow: 0px 0px 0px 0px #7b00f0;
-    -moz-box-shadow:    0px 0px 0px 0px #8300f8;
-    box-shadow:         0px 0px 0px 0px #8b00ff;
 }
 
 .btn-shop {
     text-align: center;
-    background: #eb6d4a;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to top, #d712dc, #f151f0);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to top, #d712dc, #f151f0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    -webkit-box-shadow: 0px 0px 0px 0px #7b00f0;
-    -moz-box-shadow:    0px 0px 0px 0px #8300f8;
-    box-shadow:         0px 0px 0px 0px #8b00ff;
 }
 
 .btn-kat {
     text-align: center;
-    background: #f44596;  /* fallback for old browsers */
-    background: -webkit-(to right, #f44596, #f44596);  /* Chrome 10-25, Safari 5.1-6 */
-    background: (to right, #f44596, #f44596); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    -webkit-box-shadow: 0px 0px 8px 0px #f44596;
-    -moz-box-shadow:    0px 0px 8px 0px #f44596;
-    box-shadow:         0px 0px 8px 0px #f44596;
 }
 
 button:focus {
     outline: 0;
     color: whitel;
 }
-
+p {
+    margin-top: 0;
+    margin-bottom: 2rem;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+.icon1 {
+    position: relative;
+    width: 65px;
+    display: inline-block;
+    top: 45px;
+    height: 65px;
+    border-radius: 15px;
+    border: 1px solid #eaeaea;
+}
 .text-buttons {
     font-size: 15px;
     font-weight: 400;
 }
 
-.HeaderButton--android .Icon--24 {
+.PanelHeaderBack--android .Icon--24 {
     padding: 0 !important;
 }
 
