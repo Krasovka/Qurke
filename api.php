@@ -10,6 +10,9 @@ define("DB_HOST", "sql11.freesqldatabase.com"); //Сервер базы данн
 define("DB_USERNAME", "sql11396427"); //Пользователь базы данных
 define("DB_PASSWORD", "TCBYpI8fFS"); //Пароль от пользователя базы данных
 define("DB_NAME", "sql11396427"); //Имя базы данных
+define("APP_SECRET", ""); //Защищенный ключ приложения
+define("SERVICE_KEY", "");
+define("ENDPOINT", "https://api.vk.com/method/");
 
 
 
